@@ -31,7 +31,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(actions: [
+        appBar: AppBar(
+          actions: [
           IconButton(onPressed: !_loaded ? null : () {
             setState(() {
               _loaded = false; // show progress bar
@@ -67,13 +68,15 @@ class ShowProducts extends StatelessWidget {
         itemCount: products.length,
         itemBuilder: (context, index) {
           return Column(children: [
-            const SizedBox(height: 10.0),
-            Row(children: [
-              SizedBox(width: width * 0.15,),
-              Text(products[index].toString(), style: const TextStyle(fontSize: 18)),
-              SizedBox(width: width*0.15,),
-
-            ]),
+            Container(
+              color: index%2 == 0? Colors.blue[50]:Colors.blue[100],
+              padding: EdgeInsets.all(5.0),
+              width: width*0.9,
+              child: Row(children: [
+                SizedBox(width: width * 0.15,),
+                Text(products[index].toString(), style: TextStyle(fontSize: width * 0.045)),
+              ]),
+            ),
             const SizedBox(height: 10.0)
           ]);
         });
