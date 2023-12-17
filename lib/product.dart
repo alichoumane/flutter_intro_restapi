@@ -57,7 +57,7 @@ void getProducts(Function(bool success) update) async {
 // asynchronously update _products list
 void getProductById(Function(String text) update, int pid) async {
   try {
-    final url = Uri.https(_baseURL, 'getProduct_By_ID.php', {'pid':'$pid'});
+    final url = Uri.https(_baseURL, 'getProductByID.php', {'pid':'$pid'});
     final response = await http.get(url)
         .timeout(const Duration(seconds: 5)); // max timeout 5 seconds
     if (response.statusCode == 200) { // if successful call
