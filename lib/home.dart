@@ -74,7 +74,8 @@ class ShowProducts extends StatelessWidget {
               width: width*0.9,
               child: Row(children: [
                 SizedBox(width: width * 0.15,),
-                Text(products[index].toString(), style: TextStyle(fontSize: width * 0.045)),
+                // If the Text widget doesn't fit within the available space, it will flexibly adjust its size.
+                Flexible(child:Text(products[index].toString(), style: TextStyle(fontSize: width * 0.045))),
               ]),
             ),
             const SizedBox(height: 10.0)
