@@ -11,10 +11,12 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   TextEditingController _controllerID = TextEditingController();
   String _text = ''; // displays product info or error message
+  bool _searching = false;
 
   // update product info or display error message
   void update(String text) {
     setState(() {
+      _searching = false;
       _text = text;
     });
   }
@@ -24,6 +26,9 @@ class _SearchState extends State<Search> {
     try {
       int pid = int.parse(_controllerID.text);
       getProductById(update, pid); // search asynchronously for product record
+      setState(() {
+        _searching = true;
+      });
     }
     catch(e) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('wrong ID arguments')));
@@ -45,7 +50,10 @@ class _SearchState extends State<Search> {
         ElevatedButton(onPressed: searchProduct,
             child: const Text('Find', style: TextStyle(fontSize: 18))),
         const SizedBox(height: 20),
-        Center(child: Text(_text, style: const TextStyle(fontSize: 20))),
+        Center(
+            child:
+            _searching ? SizedBox(width: 30, height: 30, child: CircularProgressIndicator())
+            : Text(_text, style: const TextStyle(fontSize: 20))),
       ],),
       ),
     );
