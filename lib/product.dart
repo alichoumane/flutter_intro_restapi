@@ -1,5 +1,6 @@
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 
 String _baseURL = 'mobileappdemo.000webhostapp.com';
 // class to represent a row from the products table
@@ -25,6 +26,7 @@ class Product {
 
 // list to hold products retrieved from getProducts
 List<Product> products = [];
+List<Product> products_filtered = [];
 
 // asynchronously update _products list
 void getProducts(Function(bool success) update) async {
@@ -81,5 +83,34 @@ void getProductById(Function(String text) update, int pid) async {
   catch(e) {
     print('Error loading data with error ${e.toString()}');
     update("Can't load data"); // inform through callback that we failed to get data
+  }
+}
+
+
+// asynchronously update _products list
+void getProductsByName(Function(bool sucess) updateProducts, String name) async {
+  try {
+    final url = Uri.https(_baseURL, 'getProductsByName.php', {'name':'$name'});
+    print(url.toString());
+    final response = await http.get(url)
+        .timeout(const Duration(seconds: 5)); // max timeout 5 seconds
+    if (response.statusCode == 200) { // if successful call
+      final jsonResponse = convert.jsonDecode(response.body); // create dart json object from json array
+      products_filtered.clear();
+      for (var row in jsonResponse) { // iterate over all rows in the json array, there should be at most one product as pid is a primary key
+        Product p = Product( // create a product object from JSON row object
+            int.parse(row['pid']),
+            row['name'],
+            int.parse(row['quantity']),
+            double.parse(row['price']),
+            row['category']);
+        products_filtered.add(p);
+      }
+      updateProducts(true); // callback update method to inform that we completed retrieving data
+    }
+  }
+  catch(e) {
+    print('Error loading data with error ${e.toString()}');
+    updateProducts(false); // inform through callback that we failed to get data
   }
 }
