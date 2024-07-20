@@ -2,7 +2,7 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-String _baseURL = 'mobileappdemo.000webhostapp.com';
+String _baseURL = 'localhost';
 // class to represent a row from the products table
 // note: cid is replaced by category name
 class Product {
@@ -31,7 +31,7 @@ List<Product> products_filtered = [];
 // asynchronously update _products list
 void getProducts(Function(bool success) update) async {
   try {
-    final url = Uri.https(_baseURL, 'getProducts.php');
+    final url = Uri.http(_baseURL, 'mycompany/getProducts.php');
     final response = await http.get(url)
         .timeout(const Duration(seconds: 5)); // max timeout 5 seconds
     products.clear(); // clear old products
@@ -59,7 +59,7 @@ void getProducts(Function(bool success) update) async {
 // asynchronously update _products list
 void getProductById(Function(String text) update, int pid) async {
   try {
-    final url = Uri.https(_baseURL, 'getProductByID.php', {'pid':'$pid'});
+    final url = Uri.http(_baseURL, 'mycompany/getProductByID.php', {'pid':'$pid'});
     final response = await http.get(url)
         .timeout(const Duration(seconds: 5)); // max timeout 5 seconds
     if (response.statusCode == 200) { // if successful call
@@ -90,7 +90,7 @@ void getProductById(Function(String text) update, int pid) async {
 // asynchronously update _products list
 void getProductsByName(Function(bool sucess) updateProducts, String name) async {
   try {
-    final url = Uri.https(_baseURL, 'getProductsByName.php', {'name':'$name'});
+    final url = Uri.http(_baseURL, 'mycompany/getProductsByName.php', {'name':'$name'});
     print(url.toString());
     final response = await http.get(url)
         .timeout(const Duration(seconds: 5)); // max timeout 5 seconds
