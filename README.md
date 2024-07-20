@@ -1,4 +1,4 @@
-# i3350_project8
+# flutter_intro_restapi
 
 This project demonstrates the use of asynchronous functions to:
 
