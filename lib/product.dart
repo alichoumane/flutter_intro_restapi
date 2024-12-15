@@ -32,8 +32,7 @@ List<Product> products = [];
 void getProducts(Function(bool success) update) async {
   try {
     final url = Uri.http(_baseURL, 'mycompany/getProducts.php');
-    final response = await http.get(url)
-        .timeout(const Duration(seconds: 5)); // max timeout 5 seconds
+    final response = await http.get(url).timeout(const Duration(seconds: 15)); // max timeout 5 seconds
     products.clear(); // clear old products
     if (response.statusCode == 200) { // if successful call
       final jsonResponse = convert.jsonDecode(response.body); // create dart json object from json array
@@ -59,7 +58,7 @@ void getProducts(Function(bool success) update) async {
 // asynchronously update _products list
 void getProductById(Function(String text) update, int pid) async {
   try {
-    final url = Uri.http(_baseURL, 'mycompany/getProductByID.php', {'pid':'$pid'});
+    final url = Uri.http(_baseURL, 'mycompany/searchProduct.php', {'pid':'$pid'});
     final response = await http.get(url)
         .timeout(const Duration(seconds: 5)); // max timeout 5 seconds
     if (response.statusCode == 200) { // if successful call

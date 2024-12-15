@@ -49,6 +49,7 @@ class _HomeState extends State<Home> {
         ],
           title: const Text('Available Products'),
           centerTitle: true,
+          backgroundColor: Colors.blue,
         ),
         // load products or progress bar
         body: _loaded ? const ShowProducts() : const Center(
